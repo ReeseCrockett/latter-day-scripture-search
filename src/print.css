@@ -1,0 +1,51 @@
+@media print {
+  header {
+    display: none !important;
+  }
+
+  .definition-section {
+    position: static !important;
+    top: auto !important;
+    margin: 0 !important;
+    padding: 0.5rem !important;
+  }
+
+  .definition-section input,
+  .definition-section button,
+  .react-select__control {
+    display: none !important;
+  }
+
+  main {
+    margin-top: 0 !important;
+  }
+
+  table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    color: #000 !important;
+    background-color: #fff !important;
+  }
+
+  th, td {
+    border: 1px solid #000 !important;
+    padding: 0.3rem !important;
+    color: #000 !important;
+    background-color: #fff !important;
+    font-size: 12pt !important;
+  }
+
+  thead, tr {
+    position: static !important;
+  }
+
+  tr {
+    page-break-inside: avoid !important;
+  }
+
+  body {
+    background: #fff !important;
+    color: #000 !important;
+    font-family: 'Times New Roman', serif !important;
+  }
+}

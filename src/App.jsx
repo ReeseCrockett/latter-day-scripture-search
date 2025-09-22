@@ -1,8 +1,7 @@
-import React, { useState, Suspense } from "react";
+import React, { useState, Suspense, useRef, useEffect } from "react";
 import Header from "./components/Header";
 import SearchResults from "./components/SearchResults";
 import Definitions from "./components/Definitions";
-
 import oldTestament from "./scriptures/old_testament.json";
 import newTestament from "./scriptures/new_testament.json";
 import bookOfMormon from "./scriptures/book_of_mormon.json";
@@ -27,11 +26,28 @@ function App() {
   const [strongsCodes, setStrongsCodes] = useState([]);
   const [showStrongs, setShowStrongs] = useState(false);
   const [showAlternate, setShowAlternate] = useState(false);
+  const [filters, setFilters] = useState({ testament: [], strongs: [] });
 
-  const [filters, setFilters] = useState({
-    testament: [],
-    strongs: [],
-  });
+  const topPanelRef = useRef(null);
+
+  // Dynamically update CSS variable for top panel height
+  useEffect(() => {
+    const updateHeight = () => {
+      if (topPanelRef.current) {
+        document.documentElement.style.setProperty(
+          "--top-panel-height",
+          `${topPanelRef.current.offsetHeight}px`
+        );
+      }
+    };
+
+    updateHeight();
+
+    const observer = new ResizeObserver(updateHeight);
+    if (topPanelRef.current) observer.observe(topPanelRef.current);
+
+    return () => observer.disconnect();
+  }, []);
 
   const handleSearch = (term) => {
     if (!term) return;
@@ -47,7 +63,7 @@ function App() {
 
     setResults(searchResults);
 
-    // Extract only Strong's codes corresponding to the searched word
+    // Extract Strong's codes
     const codes = new Set();
     const strongsRegex = /\b(\S+)\{([HG]\d+)\}/g;
 
@@ -62,53 +78,60 @@ function App() {
     setStrongsCodes(Array.from(codes));
   };
 
-  // Apply exclusion filters
   const filteredResults = results.filter((verse) => {
     const testamentMap = { Old: "old", New: "new", BOM: "bom", "D&C": "d&c", PGP: "pgp" };
-
     const matchTestament =
       filters.testament.length === 0 ||
       !filters.testament.some((t) => verse.testament === testamentMap[t]);
-
     const matchStrongs =
       filters.strongs.length === 0 ||
       !filters.strongs.some((code) => verse.strongs_text.includes(`{${code}}`));
-
     return matchTestament && matchStrongs;
   });
 
   return (
     <div className="App">
-      <Header
-        onSearch={handleSearch}
-        showStrongs={showStrongs}
-        setShowStrongs={setShowStrongs}
-        showAlternate={showAlternate}
-        setShowAlternate={setShowAlternate}
-        filters={filters}
-        setFilters={setFilters}
-        strongsCodes={strongsCodes}
-        results={results}
-      />
-
-      <Definitions strongsCodes={strongsCodes.filter((code) => !filters.strongs.includes(code))} />
-
-      <div className="main-content">
-        <SearchResults
-          results={filteredResults}
-          searchTerm={searchTerm}
+      {/* Sticky top panel */}
+      <div className="top-panel" ref={topPanelRef}>
+        <Header
+          onSearch={handleSearch}
           showStrongs={showStrongs}
+          setShowStrongs={setShowStrongs}
+          showAlternate={showAlternate}
+          setShowAlternate={setShowAlternate}
+          filters={filters}
+          setFilters={setFilters}
+          strongsCodes={strongsCodes}
+          results={results}
         />
+        <Definitions
+          strongsCodes={strongsCodes.filter((code) => !filters.strongs.includes(code))}
+        />
+      </div>
 
-        {showAlternate && (
-          <Suspense fallback={<div>Loading Alternate Verses...</div>}>
+      {/* Main scrollable content */}
+      <div className="main-content">
+        <div className={`search-results-wrapper ${showAlternate ? "shifted" : ""}`}>
+          <SearchResults
+            results={filteredResults}
+            searchTerm={searchTerm}
+            showStrongs={showStrongs}
+          />
+        </div>
+      </div>
+
+
+      {/* Right-side AlternateVerses panel */}
+      {showAlternate && (
+        <Suspense fallback={<div>Loading Alternate Verses...</div>}>
+          <div className="alternate-verses">
             <AlternateVerses
               strongsCodes={strongsCodes}
               excludeVerses={filteredResults.map((v) => v.unique_id)}
             />
-          </Suspense>
-        )}
-      </div>
+          </div>
+        </Suspense>
+      )}
     </div>
   );
 }

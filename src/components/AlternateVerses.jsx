@@ -60,9 +60,14 @@ export default function AlternateVerses({ strongsCodes, excludeVerses }) {
           const count = verseIds.filter((id) => !excludeVerses.includes(id)).length;
 
           return (
-            <button key={code} onClick={() => handleCodeClick(code)}>
+            <button
+              key={code}
+              className={`primary-button ${selectedCode === code ? "button-active" : ""}`}
+              onClick={() => handleCodeClick(code)}
+            >
               ({count}) {code}
             </button>
+
           );
         })}
       </div>

@@ -31,20 +31,18 @@ export default function Definitions({ strongsCodes }) {
   return (
     <div className="definitions-container" style={{ backgroundColor: "#171717", padding: "10px" }}>
       <h3 onClick={toggleCollapse} style={{ cursor: "pointer", margin: "0 0 10px 0" }}>
-        Search Insights {collapsed ? "(click to expand)" : "(click to collapse)"}
+         {collapsed ? "V" : "Ʌ"} Search Insights
       </h3>
       {!collapsed && (
         <div>
-          {definitions.length === 0 && <div>No Strong’s codes found.</div>}
-
           {Array.from(new Set(definitions.map((d) => d.hebrew_id || d.greek_id))).map((id) => {
             const def = definitions.find((d) => (d.hebrew_id || d.greek_id) === id);
             const code = def.hebrew_id || def.greek_id;
             return (
               <div key={id} style={{ marginBottom: "8px" }}>
-                <strong>{def.lemma} ({def.transliterated})</strong>{" "}
-                <span style={{ color: "#f28cf0", fontStyle: "italic" }}>{code}</span>
-                : {def.strong_translation} - {def.kjv_translation}
+                <span style={{ color: "#49cce6", fontWeight: "bold" }}>{code}</span>
+                : <strong>{def.lemma} ({def.transliterated})</strong>{" "}
+                - {def.strong_translation} - {def.kjv_translation}
               </div>
             );
           })}

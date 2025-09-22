@@ -1,75 +1,60 @@
-/* General table styling */
-.table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.table th,
-.table td {
-  border: 2px solid #ccc;
-  padding: 0.5rem;
-}
-
-/* Table head sticky */
-.table thead {
-  position: sticky;
-  background-color: #3A3A3A;
-  color: #F5F5F5;
-  z-index: 10;
-}
-
-/* Table body background */
-.table tbody {
-  background-color: #1A1A1A;
-}
-
-/* Highlighted text (query matches) */
-.highlight {
-  background-color: #FFFF9980;
-  font-weight: bold;
-  color: #000;
+/* General page background */
+body, #root, .App {
+  margin: 0;
+  padding: 0;
+  background-color: #2a2a2a;
+  color: white;
+  font-family: sans-serif;
 }
 
 /* Header */
-.header {
+header {
   position: fixed;
   top: 0;
-  left: 0;
   width: 100%;
+  background-color: #171717;
   padding: 1rem;
+  z-index: 1000;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+/* Definitions Section */
+.definitions-container {
+  position: fixed;
+  top: 60px; /* height of header */
+  width: 100%;
+  background-color: #171717;
+  z-index: 900;
+}
+
+/* Main content below definitions */
+.main-content {
   display: flex;
   gap: 1rem;
-  justify-content: space-between;
-  align-items: flex-start;
-  background-color: #2a117bff;
-  z-index: 100;
-  color: #9d0404ff;
+  margin-top: 600px; /* header + definitions height */
+  padding: 1rem;
 }
 
-/* Definition section */
-.definition {
-  position: sticky;
-  width: 95%;
-  background-color: #1F1F1F;
-  padding: 0.5rem;
-  border-radius: 4px;
-  border: 1px solid #ddd;
+/* Left: Search Results */
+.main-content > div:first-child {
+  flex: 2;
 }
 
-/* Button */
-.button {
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  border: none;
-  background-color: #4887caff;
-  color: #fff;
-  cursor: pointer;
+/* Right: Alternate Verses */
+.main-content > div:last-child {
+  flex: 1;
 }
 
-/* Input */
-.input {
-  padding: 0.5rem;
-  width: 100%;
-  border-radius: 4px;
-  border: 1px solid #ccc;
+/* Blue highlights */
+.highlight-blue {
+  color: #49cce6;
+  font-weight: bold;
+}
+
+/* Pink highlights */
+.highlight-pink {
+  color: #ff79c6;
+  font-style: italic;
 }

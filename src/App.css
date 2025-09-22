@@ -15,6 +15,11 @@ body,
   font-family: sans-serif;
 }
 
+body {
+  overflow-x: hidden;
+}
+
+
 /* Sticky top panel */
 .top-panel {
   position: sticky;
@@ -39,8 +44,7 @@ header {
   width: var(--definitions-width);
   background-color: #171717;
   overflow-y: auto;
-  padding: 1rem;
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
+  padding: .5rem;
   z-index: 900;
   top: calc(var(--top-panel-height, 120px));
   bottom: 0;
@@ -52,11 +56,89 @@ header {
   transform: translateX(-100%);
 }
 
+/* Alternate Verses panel (matches Definitions) */
+.alternate-verses {
+  position: fixed;
+  right: 0;
+  width: var(--alternate-width);
+  background-color: #171717;
+  overflow-y: auto;
+  padding: 1rem;
+  z-index: 900;
+  top: calc(var(--top-panel-height, 120px));
+  bottom: 0;
+  transform: translateX(0);
+  transition: transform 0.5s;
+}
+
+.alternate-verses.hidden {
+  transform: translateX(100%);
+}
+
+.alternate-verses-container {
+  max-height: none;
+  overflow-y: auto;
+}
+
+.alternate-verses-container h4 {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.75rem;
+}
+
+.alt-verse-entry {
+  background-color: #171717;
+  border: 1px solid #333;
+  border-radius: 6px;
+  padding: 0.75rem .5rem;
+  margin-bottom: 1rem;
+  transition: border-color 0.3s, transform 0.2s;
+}
+
+.alt-verse-entry:hover {
+  border-color: #ff79c6;
+  transform: translateY(-1px);
+}
+
+.alt-verse-entry .verse-title {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #888;
+  margin-bottom: 0.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.alt-verse-entry .verse-text {
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: #e8e8e8;
+  white-space: pre-wrap;
+}
+
+/* Highlight colors */
+.highlight-blue {
+  color: #49cce6;
+  font-weight: bold;
+}
+
+.highlight-pink {
+  color: #ff79c6;
+  font-weight: bold;
+  cursor: pointer;
+}
+
 /* Main content */
 .main-content {
   display: flex;
   justify-content: center;
   padding: 1rem;
+  max-width: 100%;
+  overflow-x: hidden;
+  box-sizing: border-box;
 }
 
 .search-results-wrapper {
@@ -67,33 +149,12 @@ header {
   transition: margin-right 0.3s, margin-left 0.3s;
 }
 
-/* Shift content when panels are open */
 .search-results-wrapper.shifted-left {
   margin-left: calc(var(--definitions-width) + var(--panel-padding));
 }
 
 .search-results-wrapper.shifted {
   margin-right: calc(var(--alternate-width) + var(--panel-padding));
-}
-
-/* Right panel: Alternate Verses */
-.alternate-verses {
-  position: fixed;
-  right: 0;
-  width: var(--alternate-width);
-  background-color: #171717;
-  overflow-y: auto;
-  padding: 1rem;
-  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.3);
-  z-index: 900;
-  top: calc(var(--top-panel-height, 120px));
-  bottom: 0;
-  transform: translateX(0);
-  transition: transform 0.5s;
-}
-
-.alternate-verses.hidden {
-  transform: translateX(100%);
 }
 
 /* Responsive: smaller screens, panels overlay content */
@@ -112,17 +173,12 @@ header {
     top: calc(var(--top-panel-height, 120px));
     bottom: 0;
   }
-}
 
-/* Highlight colors */
-.highlight-blue {
-  color: #49cce6;
-  font-weight: bold;
-}
-
-.highlight-pink {
-  color: #ff79c6;
-  font-style: italic;
+  .definitions-panel,
+  .alternate-verses {
+    max-width: 90vw;
+    /* ensure panels shrink on small screens */
+  }
 }
 
 /* Toggle switch */
@@ -224,6 +280,25 @@ header {
   transform: scale(0.97);
 }
 
+/* Base state: grey */
+.primary-button.alternate-button {
+  background-color: #555;
+  color: #ccc;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+/* Hover state: lighter pink only if not active */
+.primary-button.alternate-button:not(.button-active):hover {
+  background-color: #ff99d0;
+  color: white;
+}
+
+/* Active state: pink */
+.primary-button.alternate-button.button-active {
+  background-color: #ff79c6 !important;
+  color: white !important;
+}
+
 .button-active {
   background-color: #555 !important;
   color: white !important;
@@ -244,7 +319,50 @@ header {
 
 /* Definitions container inside panel */
 .definitions-container {
-  width: 100%;
+  background-color: #1e1e1e;
+  border-radius: 8px;
+  padding: 1rem;
+  max-height: none;
+  overflow-y: auto;
+}
+
+.definitions-container h3 {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.75rem;
+}
+
+.definition-entry {
+  background-color: #171717;
+  border: 1px solid #333;
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  transition: border-color 0.3s, transform 0.2s;
+}
+
+.definition-entry:hover {
+  border-color: #49cce6;
+  transform: translateY(-1px);
+}
+
+.definition-entry .strong-code {
+  color: #49cce6;
+  font-weight: bold;
+}
+
+.definition-entry .lemma {
+  font-weight: bold;
+  color: #e8e8e8;
+}
+
+.definition-entry .translations {
+  font-size: 0.9rem;
+  color: #ccc;
+  margin-top: 0.25rem;
 }
 
 .bottom-toggles {
@@ -258,7 +376,6 @@ header {
   background-color: #171717;
   z-index: 1001;
 }
-
 
 .bottom-toggles .toggle-label {
   display: flex;
@@ -295,7 +412,16 @@ header {
 
 .icon-toggle.active .icon-img {
   filter: none;
-  /* show blue if you apply blue tint in image or use CSS filter for color */
+}
+
+.icon-toggle.alternate-toggle.active {
+  border-color: #ff79c6;
+  color: #ff79c6;
+}
+
+.icon-toggle.alternate-toggle:hover {
+  border-color: #ff99d0;
+  color: #ff99d0;
 }
 
 /* Search result container */
@@ -305,7 +431,6 @@ header {
   border-radius: 8px;
   padding: 1.25rem;
   margin-bottom: 1.5rem;
-  /* increased space between results */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
   transition: border-color 0.3s, transform 0.2s;
 }
@@ -315,7 +440,6 @@ header {
   transform: scale(1.01);
 }
 
-/* Title of each verse */
 .search-result .verse-title {
   font-size: 0.8rem;
   font-weight: 500;
@@ -325,19 +449,12 @@ header {
   letter-spacing: 0.05em;
 }
 
-/* Verse text */
 .search-result .verse-text {
   font-size: 1.1rem;
   line-height: 1.75;
   color: #e8e8e8;
   white-space: pre-wrap;
   padding-left: 4px;
-}
-
-/* Highlighted text remains the same */
-.highlight-blue {
-  color: #49cce6;
-  font-weight: bold;
 }
 
 .verse-link {

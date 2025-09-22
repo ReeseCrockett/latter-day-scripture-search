@@ -52,7 +52,7 @@ export default function AlternateVerses({ strongsCodes, excludeVerses }) {
   };
 
   return (
-    <div>
+    <div className="alternate-verses-container">
       <h4>Alternate Strong Code Verses</h4>
       <div style={{ display: "flex", gap: "5px", flexWrap: "wrap", marginBottom: "10px" }}>
         {strongsCodes.map((code) => {
@@ -62,20 +62,19 @@ export default function AlternateVerses({ strongsCodes, excludeVerses }) {
           return (
             <button
               key={code}
-              className={`primary-button ${selectedCode === code ? "button-active" : ""}`}
+              className={`primary-button alternate-button ${selectedCode === code ? "button-active" : ""}`}
               onClick={() => handleCodeClick(code)}
             >
               ({count}) {code}
             </button>
-
           );
         })}
       </div>
 
       {altVerses.map((verse) => (
-        <div key={verse.unique_id}>
-          <div>{verse.short_title}</div>
-          <div>{highlightAlternates(verse.strongs_text)}</div>
+        <div key={verse.unique_id} className="alt-verse-entry">
+          <div className="verse-title">{verse.short_title}</div>
+          <div className="verse-text">{highlightAlternates(verse.strongs_text)}</div>
         </div>
       ))}
     </div>

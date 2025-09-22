@@ -24,6 +24,7 @@ export default function Header({
     <header>
       {/* Top section: search input and Strong's toggle */}
       <div style={{ marginBottom: "20px" }}>
+        <h1>Latter-Day Scritpure Search</h1>
         <div style={{ marginBottom: "10px", display: "flex", gap: "10px" }}>
           <input
             className="search-input"
@@ -82,7 +83,7 @@ export default function Header({
                 className="action-link"
                 onClick={() => setFilters((prev) => ({ ...prev, testament: [] }))}
               >
-                Clear
+                Select All
               </span>
               <span
                 className="action-link"
@@ -90,7 +91,7 @@ export default function Header({
                   setFilters((prev) => ({ ...prev, testament: [...testamentOptions] }))
                 }
               >
-                Select All
+                Clear
               </span>
             </div>
 
@@ -121,14 +122,14 @@ export default function Header({
                   className="action-link"
                   onClick={() => setFilters((prev) => ({ ...prev, strongs: [] }))}
                 >
-                  Clear
+                  Select All
                 </span>
 
                 <span
                   className="action-link"
                   onClick={() => setFilters((prev) => ({ ...prev, strongs: [...strongsCodes] }))}
                 >
-                  Select All
+                  Clear
                 </span>
               </div>
             )}
@@ -140,7 +141,7 @@ export default function Header({
       <div className="bottom-toggles">
         {/* Definitions */}
         <button
-          className={`icon-toggle ${showAlternate ? "active" : ""}`}
+          className={`icon-toggle ${showDefinitions ? "active" : ""}`}
           onClick={() => setShowDefinitions(!showDefinitions)}
           title="Show Alternate Verses"
         >
@@ -161,7 +162,7 @@ export default function Header({
 
         {/* Alternate Verses */}
         <button
-          className={`icon-toggle ${showAlternate ? "active" : ""}`}
+          className={`icon-toggle alternate-toggle ${showAlternate ? "active" : ""}`}
           onClick={() => setShowAlternate(!showAlternate)}
           title="Show Alternate Verses"
         >

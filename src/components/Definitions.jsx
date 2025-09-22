@@ -31,7 +31,7 @@ export default function Definitions({ strongsCodes }) {
   return (
     <div className="definitions-container" style={{ backgroundColor: "#171717", padding: "10px" }}>
       <h3>
-         Search Insights
+        Search Insights
       </h3>
       {!collapsed && (
         <div>
@@ -39,10 +39,12 @@ export default function Definitions({ strongsCodes }) {
             const def = definitions.find((d) => (d.hebrew_id || d.greek_id) === id);
             const code = def.hebrew_id || def.greek_id;
             return (
-              <div key={id} style={{ marginBottom: "8px" }}>
-                <span style={{ color: "#49cce6", fontWeight: "bold" }}>{code}</span>
-                : <strong>{def.lemma} ({def.transliterated})</strong>{" "}
-                - {def.strong_translation} - {def.kjv_translation}
+              <div key={id} className="definition-entry">
+                <span className="strong-code">{code}</span>:
+                <span className="lemma"> {def.lemma} ({def.transliterated})</span>
+                <div className="translations">
+                  {def.strong_translation} - {def.kjv_translation}
+                </div>
               </div>
             );
           })}

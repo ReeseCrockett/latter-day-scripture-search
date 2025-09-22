@@ -27,6 +27,7 @@ function App() {
   const [showStrongs, setShowStrongs] = useState(false);
   const [showAlternate, setShowAlternate] = useState(false);
   const [filters, setFilters] = useState({ testament: [], strongs: [] });
+  const [showDefinitions, setShowDefinitions] = useState(false);
 
   const topPanelRef = useRef(null);
 
@@ -99,19 +100,21 @@ function App() {
           setShowStrongs={setShowStrongs}
           showAlternate={showAlternate}
           setShowAlternate={setShowAlternate}
+          showDefinitions={showDefinitions}
+          setShowDefinitions={setShowDefinitions}
           filters={filters}
           setFilters={setFilters}
           strongsCodes={strongsCodes}
           results={results}
         />
-        <Definitions
-          strongsCodes={strongsCodes.filter((code) => !filters.strongs.includes(code))}
-        />
       </div>
 
       {/* Main scrollable content */}
       <div className="main-content">
-        <div className={`search-results-wrapper ${showAlternate ? "shifted" : ""}`}>
+        <div
+          className={`search-results-wrapper ${showAlternate ? "shifted" : ""
+            } ${showDefinitions ? "shifted-left" : ""}`}
+        >
           <SearchResults
             results={filteredResults}
             searchTerm={searchTerm}
@@ -119,6 +122,15 @@ function App() {
           />
         </div>
       </div>
+
+      {/* Left-side Definitions panel */}
+      {showDefinitions && strongsCodes.length > 0 && (
+        <div className="definitions-panel">
+          <Definitions
+            strongsCodes={strongsCodes.filter((code) => !filters.strongs.includes(code))}
+          />
+        </div>
+      )}
 
 
       {/* Right-side AlternateVerses panel */}

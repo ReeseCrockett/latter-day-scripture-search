@@ -39,7 +39,7 @@ export default function AlternateVerses({ strongsCodes, excludeVerses }) {
       if (selectedCode && code === selectedCode) {
         if (start > lastIndex) result.push(text.slice(lastIndex, start));
         result.push(
-          <span key={start} style={{ color: "#f28cf0", fontStyle: "italic" }}>
+          <span key={start} className="highlight-pink">
             {match[0]}
           </span>
         );
@@ -53,7 +53,7 @@ export default function AlternateVerses({ strongsCodes, excludeVerses }) {
 
   return (
     <div>
-      <h4>Available Strong's Codes</h4>
+      <h4>Alternate Strong Code Verses</h4>
       <div style={{ display: "flex", gap: "5px", flexWrap: "wrap", marginBottom: "10px" }}>
         {strongsCodes.map((code) => {
           const verseIds = strongsIndex[code] || [];

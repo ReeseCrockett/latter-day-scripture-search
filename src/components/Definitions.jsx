@@ -30,8 +30,8 @@ export default function Definitions({ strongsCodes }) {
 
   return (
     <div className="definitions-container" style={{ backgroundColor: "#171717", padding: "10px" }}>
-      <h3 onClick={toggleCollapse} style={{ cursor: "pointer", margin: "0 0 10px 0" }}>
-         {collapsed ? "V" : "Ʌ"} Search Insights
+      <h3>
+         Search Insights
       </h3>
       {!collapsed && (
         <div>

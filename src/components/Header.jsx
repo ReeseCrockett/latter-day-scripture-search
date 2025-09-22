@@ -1,32 +1,30 @@
-import React, { useState, forwardRef } from "react";
-
-
+import React, { useState } from "react";
 
 export default function Header({
   onSearch,
   showStrongs,
   setShowStrongs,
-  showAlternate,
-  setShowAlternate,
   filters,
   setFilters,
   strongsCodes,
   results,
+  showAlternate,
+  setShowAlternate,
+  showDefinitions,
+  setShowDefinitions,
 }) {
   const [input, setInput] = useState("");
+  const testamentOptions = ["Old", "New", "BOM", "D&C", "PGP"];
 
   const handleKeyPress = (e) => {
     if (e.key === "Enter") onSearch(input);
   };
 
-  const testamentOptions = ["Old", "New", "BOM", "D&C", "PGP"];
-
   return (
     <header>
-      {/* Combined search input, toggles, and filters block */}
+      {/* Top section: search input and Strong's toggle */}
       <div style={{ marginBottom: "20px" }}>
-        {/* Search Input and Button */}
-        <div style={{ marginBottom: "10px" }}>
+        <div style={{ marginBottom: "10px", display: "flex", gap: "10px" }}>
           <input
             className="search-input"
             type="text"
@@ -35,11 +33,14 @@ export default function Header({
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyPress}
           />
-          <button className="search-button" onClick={() => onSearch(input)}>Search</button>
-
+          <button
+            className="search-button"
+            onClick={() => onSearch(input)}
+          >
+            Search
+          </button>
         </div>
 
-        {/* Toggles */}
         <div style={{ display: "flex", gap: "20px", marginBottom: "10px" }}>
           <label className="toggle-label">
             <input
@@ -50,19 +51,9 @@ export default function Header({
             <span className="toggle-switch" />
             <span>Show Strong’s Text</span>
           </label>
-
-          <label className="toggle-label">
-            <input
-              type="checkbox"
-              checked={showAlternate}
-              onChange={() => setShowAlternate(!showAlternate)}
-            />
-            <span className="toggle-switch" />
-            <span>Show Alternate Verses</span>
-          </label>
         </div>
 
-        {/* Conditionally Visible Filters */}
+        {/* Conditionally visible filters */}
         {results.length > 0 && (
           <div className="filters">
             {/* Testament Filters */}
@@ -71,7 +62,8 @@ export default function Header({
               {testamentOptions.map((label) => (
                 <button
                   key={label}
-                  className={`primary-button ${filters.testament.includes(label) ? "button-active" : ""}`}
+                  className={`primary-button ${filters.testament.includes(label) ? "button-active" : ""
+                    }`}
                   onClick={() =>
                     setFilters((prev) => ({
                       ...prev,
@@ -90,17 +82,17 @@ export default function Header({
                 className="action-link"
                 onClick={() => setFilters((prev) => ({ ...prev, testament: [] }))}
               >
-                Select All
-              </span>
-
-              <span
-                className="action-link"
-                onClick={() => setFilters((prev) => ({ ...prev, testament: [...testamentOptions] }))}
-              >
                 Clear
               </span>
+              <span
+                className="action-link"
+                onClick={() =>
+                  setFilters((prev) => ({ ...prev, testament: [...testamentOptions] }))
+                }
+              >
+                Select All
+              </span>
             </div>
-
 
             {/* Strong’s Filters */}
             {strongsCodes.length > 0 && (
@@ -109,7 +101,8 @@ export default function Header({
                 {strongsCodes.map((code) => (
                   <button
                     key={code}
-                    className={`primary-button ${filters.strongs.includes(code) ? "button-active" : ""}`}
+                    className={`primary-button ${filters.strongs.includes(code) ? "button-active" : ""
+                      }`}
                     onClick={() =>
                       setFilters((prev) => ({
                         ...prev,
@@ -128,21 +121,65 @@ export default function Header({
                   className="action-link"
                   onClick={() => setFilters((prev) => ({ ...prev, strongs: [] }))}
                 >
-                  Select All
+                  Clear
                 </span>
 
                 <span
                   className="action-link"
                   onClick={() => setFilters((prev) => ({ ...prev, strongs: [...strongsCodes] }))}
                 >
-                  Clear
+                  Select All
                 </span>
               </div>
             )}
           </div>
         )}
       </div>
-    </header>
 
+      {/* Bottom toggles: icon buttons flush left/right */}
+      <div className="bottom-toggles">
+        {/* Definitions */}
+        <button
+          className={`icon-toggle ${showAlternate ? "active" : ""}`}
+          onClick={() => setShowDefinitions(!showDefinitions)}
+          title="Show Alternate Verses"
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <text
+              x="12"
+              y="70%"
+              textAnchor="middle"
+              dominantBaseline="middle"
+              fill="currentColor"
+              fontSize="26"
+              fontFamily="Arial, serif"
+            >
+              A
+            </text>
+          </svg>
+        </button>
+
+        {/* Alternate Verses */}
+        <button
+          className={`icon-toggle ${showAlternate ? "active" : ""}`}
+          onClick={() => setShowAlternate(!showAlternate)}
+          title="Show Alternate Verses"
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <text
+              x="12"
+              y="60%"
+              textAnchor="middle"
+              dominantBaseline="middle"
+              fill="currentColor"
+              fontSize="26"
+              fontFamily="Arial, serif"
+            >
+              א
+            </text>
+          </svg>
+        </button>
+      </div>
+    </header>
   );
 }

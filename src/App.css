@@ -1,3 +1,9 @@
+:root {
+  --definitions-width: 320px;
+  --alternate-width: 320px;
+  --panel-padding: 20px;
+}
+
 /* General page background */
 body,
 #root,
@@ -9,7 +15,7 @@ body,
   font-family: sans-serif;
 }
 
-/* Header and Definitions Section */
+/* Sticky top panel */
 .top-panel {
   position: sticky;
   top: 0;
@@ -18,203 +24,330 @@ body,
 
 /* Header */
 header {
-  top: 0;
   width: 100%;
   background-color: #171717;
   padding: 1rem;
   display: flex;
+  flex-direction: column;
   gap: 0.5rem;
-  align-items: center;
 }
 
-/* Definitions Section */
-.definitions-container {
-  width: 100%;
+/* Definitions panel */
+.definitions-panel {
+  position: fixed;
+  left: 0;
+  width: var(--definitions-width);
+  background-color: #171717;
+  overflow-y: auto;
+  padding: 1rem;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
+  z-index: 900;
+  top: calc(var(--top-panel-height, 120px));
+  bottom: 0;
+  transform: translateX(0);
+  transition: transform 0.5s;
 }
 
-/* Main content below definitions */
+.definitions-panel.hidden {
+  transform: translateX(-100%);
+}
+
+/* Main content */
 .main-content {
   display: flex;
   justify-content: center;
   padding: 1rem;
-  transition: margin-right 0.3s;
 }
 
-/* SearchResults wrapper */
 .search-results-wrapper {
   max-width: 512px;
+  min-width: 310px;
   width: 100%;
-  transition: margin-right 0.3s;
+  flex: 1;
+  transition: margin-right 0.3s, margin-left 0.3s;
 }
 
-  /* Shift left when AlternateVerses is open */
-  .search-results-wrapper.shifted {
-    margin-right: 420px;
-    /* same width as AlternateVerses panel */
+/* Shift content when panels are open */
+.search-results-wrapper.shifted-left {
+  margin-left: calc(var(--definitions-width) + var(--panel-padding));
+}
+
+.search-results-wrapper.shifted {
+  margin-right: calc(var(--alternate-width) + var(--panel-padding));
+}
+
+/* Right panel: Alternate Verses */
+.alternate-verses {
+  position: fixed;
+  right: 0;
+  width: var(--alternate-width);
+  background-color: #171717;
+  overflow-y: auto;
+  padding: 1rem;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.3);
+  z-index: 900;
+  top: calc(var(--top-panel-height, 120px));
+  bottom: 0;
+  transform: translateX(0);
+  transition: transform 0.5s;
+}
+
+.alternate-verses.hidden {
+  transform: translateX(100%);
+}
+
+/* Responsive: smaller screens, panels overlay content */
+@media (max-width: 960px) {
+
+  .search-results-wrapper.shifted,
+  .search-results-wrapper.shifted-left {
+    margin-left: 0;
+    margin-right: 0;
   }
 
-  /* Left: Search Results */
-  .main-content>.search-results {
-    flex: 1;
-  }
-
-  /* Right: Alternate Verses */
-  .alternate-verses {
+  .alternate-verses,
+  .definitions-panel {
     position: fixed;
-    right: 0;
-    width: 320px;
-    background-color: #171717;
-    overflow-y: auto;
-    padding: 1rem;
-    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.3);
-    z-index: 900;
+    max-width: none;
     top: calc(var(--top-panel-height, 120px));
     bottom: 0;
-    transition: transform 0.3s;
   }
+}
 
-  /* Responsive: smaller screens, panel overlays instead of shifting content */
-  @media (max-width: 980px) {
-    .search-results-wrapper.shifted {
-      margin-right: 0;
-    }
+/* Highlight colors */
+.highlight-blue {
+  color: #49cce6;
+  font-weight: bold;
+}
 
-    .alternate-verses {
-      position: fixed;
-      max-width: none;
-      top: calc(var(--top-panel-height, 120px));
-      right: 0;
-      bottom: 0;
-    }
-  }
+.highlight-pink {
+  color: #ff79c6;
+  font-style: italic;
+}
 
-  /* Blue highlights */
-  .highlight-blue {
-    color: #49cce6;
-    font-weight: bold;
-  }
+/* Toggle switch */
+.toggle-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: bold;
+}
 
-  /* Pink highlights */
-  .highlight-pink {
-    color: #ff79c6;
-    font-style: italic;
-  }
+.toggle-label input[type="checkbox"] {
+  display: none;
+}
 
-  .toggle-label {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-weight: bold;
-  }
+.toggle-switch {
+  width: 40px;
+  height: 20px;
+  background-color: #ccc;
+  border-radius: 20px;
+  position: relative;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
 
-  .toggle-label input[type="checkbox"] {
-    display: none;
-  }
+.toggle-switch::before {
+  content: "";
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  top: 2px;
+  left: 2px;
+  background-color: white;
+  border-radius: 50%;
+  transition: transform 0.3s;
+}
 
-  .toggle-switch {
-    width: 40px;
-    height: 20px;
-    background-color: #ccc;
-    border-radius: 20px;
-    position: relative;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
+.toggle-label input[type="checkbox"]:checked+.toggle-switch {
+  background-color: #49cce6;
+}
 
-  .toggle-switch::before {
-    content: "";
-    position: absolute;
-    width: 16px;
-    height: 16px;
-    top: 2px;
-    left: 2px;
-    background-color: white;
-    border-radius: 50%;
-    transition: transform 0.3s;
-  }
+.toggle-label input[type="checkbox"]:checked+.toggle-switch::before {
+  transform: translateX(20px);
+}
 
-  .toggle-label input[type="checkbox"]:checked+.toggle-switch {
-    background-color: #49cce6;
-  }
+/* Search input and button */
+.search-input {
+  background-color: #1e1e1e;
+  border: 1px solid #49cce6;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 5px;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
 
-  .toggle-label input[type="checkbox"]:checked+.toggle-switch::before {
-    transform: translateX(20px);
-  }
+.search-input:focus {
+  border-color: #66d3f9;
+  box-shadow: 0 0 5px #49cce6;
+}
 
-  /* Search input */
-  .search-input {
-    background-color: #1e1e1e;
-    border: 1px solid #49cce6;
-    color: white;
-    padding: 8px 12px;
-    border-radius: 5px;
-    font-size: 1rem;
-    outline: none;
-    transition: border-color 0.3s, box-shadow 0.3s;
-  }
+.search-button {
+  background-color: #49cce6;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  margin-left: 10px;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.1s;
+}
 
-  .search-input:focus {
-    border-color: #66d3f9;
-    box-shadow: 0 0 5px #49cce6;
-  }
+.search-button:hover {
+  background-color: #66d3f9;
+}
 
-  /* Search button */
-  .search-button {
-    background-color: #49cce6;
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    margin-left: 10px;
-    border-radius: 5px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.1s;
-  }
+.search-button:active {
+  transform: scale(0.97);
+}
 
-  .search-button:hover {
-    background-color: #66d3f9;
-  }
+/* General buttons */
+.primary-button {
+  background-color: #49cce6;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 5px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+}
 
-  .search-button:active {
-    transform: scale(0.97);
-  }
+.primary-button:hover {
+  background-color: #66d3f9;
+}
 
-  /* General button style */
-  .primary-button {
-    background-color: #49cce6;
-    color: white;
-    border: none;
-    padding: 6px 12px;
-    border-radius: 5px;
-    font-size: 0.95rem;
-    cursor: pointer;
-    transition: background-color 0.2s, transform 0.1s;
-  }
+.primary-button:active {
+  transform: scale(0.97);
+}
 
-  .primary-button:hover {
-    background-color: #66d3f9;
-  }
+.button-active {
+  background-color: #555 !important;
+  color: white !important;
+}
 
-  .primary-button:active {
-    transform: scale(0.97);
-  }
+.action-link {
+  color: #49cce6;
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 0.9rem;
+  margin-left: 10px;
+  transition: color 0.2s;
+}
 
-  /* Toggle state (active button) */
-  .button-active {
-    background-color: #555 !important;
-    color: white !important;
-  }
+.action-link:hover {
+  color: #66d3f9;
+}
 
-  .action-link {
-    color: #49cce6;
-    /* same blue as primary button */
-    text-decoration: underline;
-    cursor: pointer;
-    font-size: 0.9rem;
-    margin-left: 10px;
-    transition: color 0.2s;
-  }
+/* Definitions container inside panel */
+.definitions-container {
+  width: 100%;
+}
 
-  .action-link:hover {
-    color: #66d3f9;
-  }
+.bottom-toggles {
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  padding-right: 1.5rem;
+  background-color: #171717;
+  z-index: 1001;
+}
+
+
+.bottom-toggles .toggle-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.icon-toggle {
+  background: none;
+  border: 2px solid white;
+  border-radius: 6px;
+  padding: 4px;
+  cursor: pointer;
+  color: white;
+  transition: all 0.3s;
+}
+
+.icon-toggle.active {
+  border-color: #49cce6;
+  color: #49cce6;
+}
+
+.icon-toggle:hover {
+  border-color: #66d3f9;
+  color: #66d3f9;
+}
+
+.icon-img {
+  width: 24px;
+  height: 24px;
+  filter: grayscale(100%);
+  transition: filter 0.3s;
+}
+
+.icon-toggle.active .icon-img {
+  filter: none;
+  /* show blue if you apply blue tint in image or use CSS filter for color */
+}
+
+/* Search result container */
+.search-result {
+  background-color: #1e1e1e;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+  /* increased space between results */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  transition: border-color 0.3s, transform 0.2s;
+}
+
+.search-result:hover {
+  border-color: #49cce6;
+  transform: scale(1.01);
+}
+
+/* Title of each verse */
+.search-result .verse-title {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #888;
+  margin-bottom: 0.4rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Verse text */
+.search-result .verse-text {
+  font-size: 1.1rem;
+  line-height: 1.75;
+  color: #e8e8e8;
+  white-space: pre-wrap;
+  padding-left: 4px;
+}
+
+/* Highlighted text remains the same */
+.highlight-blue {
+  color: #49cce6;
+  font-weight: bold;
+}
+
+.verse-link {
+  color: #49cce6;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.2s;
+}
+
+.verse-link:hover {
+  color: #66d3f9;
+  text-decoration: underline;
+}

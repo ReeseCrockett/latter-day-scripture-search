@@ -40,9 +40,6 @@ export default function Header({
           >
             Search
           </button>
-        </div>
-
-        <div style={{ display: "flex", gap: "20px", marginBottom: "10px" }}>
           <label className="toggle-label">
             <input
               type="checkbox"
@@ -50,7 +47,7 @@ export default function Header({
               onChange={() => setShowStrongs(!showStrongs)}
             />
             <span className="toggle-switch" />
-            <span>Show Strong’s Text</span>
+            <span>Strong’s Codes</span>
           </label>
         </div>
 

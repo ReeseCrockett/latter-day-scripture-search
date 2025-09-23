@@ -8,11 +8,7 @@
 body,
 #root,
 .App {
-  margin: 0;
-  padding: 0;
-  background-color: #2a2a2a;
   color: white;
-  font-family: sans-serif;
 }
 
 body {
@@ -32,9 +28,6 @@ header {
   width: 100%;
   background-color: #171717;
   padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
 }
 
 /* Definitions panel */
@@ -48,12 +41,6 @@ header {
   z-index: 900;
   top: calc(var(--top-panel-height, 120px));
   bottom: 0;
-  transform: translateX(0);
-  transition: transform 0.5s;
-}
-
-.definitions-panel.hidden {
-  transform: translateX(-100%);
 }
 
 /* Alternate Verses panel (matches Definitions) */
@@ -64,20 +51,9 @@ header {
   background-color: #171717;
   overflow-y: auto;
   padding: 1rem;
-  z-index: 900;
+  z-index: 800;
   top: calc(var(--top-panel-height, 120px));
   bottom: 0;
-  transform: translateX(0);
-  transition: transform 0.5s;
-}
-
-.alternate-verses.hidden {
-  transform: translateX(100%);
-}
-
-.alternate-verses-container {
-  max-height: none;
-  overflow-y: auto;
 }
 
 .alternate-verses-container h4 {
@@ -90,7 +66,6 @@ header {
 }
 
 .alt-verse-entry {
-  background-color: #171717;
   border: 1px solid #333;
   border-radius: 6px;
   padding: 0.75rem .5rem;
@@ -113,10 +88,9 @@ header {
 }
 
 .alt-verse-entry .verse-text {
-  font-size: 1.05rem;
-  line-height: 1.6;
+  font-size: 1rem;
+  line-height: 1.3;
   color: #e8e8e8;
-  white-space: pre-wrap;
 }
 
 /* Highlight colors */
@@ -136,17 +110,12 @@ header {
   display: flex;
   justify-content: center;
   padding: 1rem;
-  max-width: 100%;
-  overflow-x: hidden;
-  box-sizing: border-box;
 }
 
 .search-results-wrapper {
   max-width: 512px;
   min-width: 310px;
-  width: 100%;
   flex: 1;
-  transition: margin-right 0.3s, margin-left 0.3s;
 }
 
 .search-results-wrapper.shifted-left {
@@ -336,11 +305,13 @@ header {
 }
 
 .definition-entry {
-  background-color: #171717;
   border: 1px solid #333;
   border-radius: 6px;
   padding: 0.75rem 1rem;
   margin-bottom: 1rem;
+  color: #e8e8e8;
+  font-size: 1rem;
+  line-height: 1.3;
   transition: border-color 0.3s, transform 0.2s;
 }
 
@@ -360,8 +331,9 @@ header {
 }
 
 .definition-entry .translations {
-  font-size: 0.9rem;
-  color: #ccc;
+  font-size: 1rem;
+  line-height: 1.3;
+  color: #e8e8e8;
   margin-top: 0.25rem;
 }
 

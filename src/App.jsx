@@ -128,6 +128,7 @@ function App() {
         <div className="definitions-panel">
           <Definitions
             strongsCodes={strongsCodes.filter((code) => !filters.strongs.includes(code))}
+            searchTerm={searchTerm}
           />
         </div>
       )}

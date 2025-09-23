@@ -142,19 +142,11 @@ export default function Header({
           onClick={() => setShowDefinitions(!showDefinitions)}
           title="Show Definitions"
         >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <text
-              x="12"
-              y="70%"
-              textAnchor="middle"
-              dominantBaseline="middle"
-              fill="currentColor"
-              fontSize="26"
-              fontFamily="Arial, serif"
-            >
-              A
-            </text>
-          </svg>
+          <img
+            src="/dictionary.png"
+            alt="Definitions"
+            className="icon-img definitions-img"
+          />
         </button>
 
         {/* Strong's Codes Toggle (as icon button) */}
@@ -163,41 +155,26 @@ export default function Header({
           onClick={() => setShowStrongs(!showStrongs)}
           title="Show Strong’s Codes"
         >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <text
-              x="12"
-              y="70%"
-              textAnchor="middle"
-              dominantBaseline="middle"
-              fill="currentColor"
-              fontSize="20"
-              fontFamily="Arial, serif"
-            >
-              S
-            </text>
-          </svg>
+          <img
+            src="/strongs.png"
+            alt="Strongs Codes"
+            className="icon-img strongs-img"
+          />
         </button>
 
         {/* Filter Toggle Button (mobile) */}
         {isMobile && (
+
           <button
             className={`icon-toggle ${showMobileFilters ? "active" : ""}`}
             onClick={() => setShowMobileFilters((prev) => !prev)}
             title={showMobileFilters ? "Hide Filters" : "Show Filters"}
           >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-              <text
-                x="12"
-                y="70%"
-                textAnchor="middle"
-                dominantBaseline="middle"
-                fill="currentColor"
-                fontSize="20"
-                fontFamily="Arial, serif"
-              >
-                F
-              </text>
-            </svg>
+            <img
+              src="/filter.png"
+              alt="Filters"
+              className="icon-img filters-img"
+            />
           </button>
         )}
 
@@ -208,17 +185,17 @@ export default function Header({
           onClick={() => setShowAlternate(!showAlternate)}
           title="Show Alternate Verses"
         >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <svg width="36" height="36" viewBox="-6 -6 36 36" fill="none">
             <text
               x="12"
               y="60%"
               textAnchor="middle"
               dominantBaseline="middle"
-              fill="currentColor"
-              fontSize="26"
+              fill="white"
+              fontSize="42"
               fontFamily="Arial, serif"
             >
-              א
+              ה
             </text>
           </svg>
         </button>

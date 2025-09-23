@@ -403,12 +403,12 @@ header {
 
 .icon-toggle {
   background: none;
-  border: 2px solid white;
-  border-radius: 6px;
-  padding: 4px;
+  border: none;
+  padding: 0;
   cursor: pointer;
-  color: white;
-  transition: all 0.3s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .icon-toggle.active {
@@ -499,3 +499,38 @@ header {
   align-items: center;
   gap: 10px;
 }
+
+.icon-toggle .icon-img {
+  width: 36px;
+  height: 36px;
+  filter: brightness(0) invert(1);
+  transition: filter 0.3s, transform 0.2s;
+}
+
+/* Hover highlight (brighter blue glow) */
+.icon-toggle:hover .icon-img {
+  filter: brightness(0) invert(1) drop-shadow(0 0 6px #49cce6) drop-shadow(0 0 4px #49cce6);
+  transform: scale(1.05);
+}
+
+/* Active highlight (brighter blue glow) */
+.icon-toggle.active .icon-img {
+  filter: brightness(0) invert(1) drop-shadow(0 0 6px #49cce6) drop-shadow(0 0 4px #49cce6);
+}
+
+.icon-toggle.alternate-toggle text {
+  fill: white;
+  transition: text-shadow 0.3s, transform 0.2s;
+}
+
+.icon-toggle.alternate-toggle:hover text,
+.icon-toggle.alternate-toggle.active text {
+  text-shadow:
+    0 0 10px #ff79c6,
+    0 0 10px #ff79c6,
+    0 0 8px #ff79c6;
+  transform: scale(1.05);
+}
+
+.icon-toggle.alternate-toggle svg {
+  overflow: visible;
